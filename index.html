@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            scroll-padding-top: 80px;
+        }
+        html::-webkit-scrollbar {
+            display: none;
+        }
+        body {
+            font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+            line-height: 1.6;
+            color: #e8dcc8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #1a1410;
+        }
+        body.light-mode {
+            color: #3d2f26;
+            background: #f5f1ed;
+        }
+        h1 {
+            font-size: 2.5em;
+            font-weight: 400;
+            margin: 80px 0 20px 0;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #e8dcc8 0%, #b8a690 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        body.light-mode h1 {
+            background: linear-gradient(135deg, #5c4a3a 0%, #8b6f47 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        h2 {
+            font-size: 1.8em;
+            font-weight: 400;
+            margin: 60px 0 30px 0;
+            background: linear-gradient(135deg, #d4c4b0 0%, #9d8566 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #d4a574, transparent);
+            border-radius: 2px;
+        }
+        body.light-mode h2 {
+            background: linear-gradient(135deg, #6d5844 0%, #a68063 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        body.light-mode h2::after {
+            background: linear-gradient(90deg, #a67c52, transparent);
+        }
+        h3 {
+            font-size: 1.2em;
+            font-weight: 500;
+            margin: 0 0 10px 0;
+            color: #cdb5a0;
+        }
+        body.light-mode h3 {
+            color: #5c4a3a;
+        }
+        p {
+            color: #b8a890;
+            margin-bottom: 15px;
+        }
+        body.light-mode p {
+            color: #5d4a40;
+        }
+        a {
+            color: #d4a574;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        a:hover {
+            color: #e8b88a;
+            text-decoration: underline;
+        }
+        body.light-mode a {
+            color: #a67c52;
+        }
+        body.light-mode a:hover {
+            color: #8b6f47;
+        }
+        nav {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 60px;
+            font-size: 0.95em;
+            border-bottom: 1px solid rgba(232, 220, 200, 0.08);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            background: linear-gradient(180deg, rgba(26, 20, 16, 0.95) 0%, rgba(26, 20, 16, 0.85) 100%);
+            margin-left: -20px;
+            margin-right: -20px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+        body.light-mode nav {
+            background: linear-gradient(180deg, rgba(245, 241, 237, 0.95) 0%, rgba(240, 235, 230, 0.85) 100%);
+            border-bottom-color: rgba(61, 47, 38, 0.1);
+        }
+        nav a {
+            color: #b8a890;
+            position: relative;
+            padding: 5px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            -webkit-tap-highlight-color: transparent;
+        }
+        @media (max-width: 600px) {
+            nav a {
+                width: fit-content;
+                display: inline-block;
+            }
+        }
+        body.light-mode nav a {
+            color: #7d6652;
+        }
+        nav a:hover {
+            color: #d4a574;
+            text-decoration: none;
+            background: rgba(212, 165, 116, 0.1);
+        }
+        body.light-mode nav a:hover {
+            color: #a67c52;
+            background: rgba(166, 124, 82, 0.1);
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 12px;
+            right: 12px;
+            height: 2px;
+            background: linear-gradient(90deg, #d4a574, #e8b88a);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        nav a:hover::after {
+            transform: scaleX(1);
+        }
+        body.light-mode nav a::after {
+            background: linear-gradient(90deg, #a67c52, #8b6f47);
+        }
+        nav a.active {
+            color: #e8b88a;
+            background: rgba(212, 165, 116, 0.15);
+            box-shadow: 0 0 20px rgba(212, 165, 116, 0.2);
+        }
+        nav a.active::after {
+            transform: scaleX(1);
+        }
+        body.light-mode nav a.active {
+            color: #8b6f47;
+            background: rgba(166, 124, 82, 0.15);
+            box-shadow: 0 0 20px rgba(166, 124, 82, 0.2);
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            padding: 6px 0;
+            color: #9d8566;
+            transition: all 0.2s ease;
+        }
+        li:hover {
+            color: #d4a574;
+            transform: translateX(5px);
+        }
+        body.light-mode li {
+            color: #8b6f47;
+        }
+        body.light-mode li:hover {
+            color: #a67c52;
+        }
+        li::before {
+            content: '→';
+            margin-right: 10px;
+            color: #6d5844;
+            transition: all 0.2s ease;
+        }
+        li:hover::before {
+            color: #d4a574;
+        }
+        body.light-mode li::before {
+            color: #a68063;
+        }
+        body.light-mode li:hover::before {
+            color: #a67c52;
+        }
+        section {
+            margin-bottom: 60px;
+        }
+        .intro {
+            margin-bottom: 80px;
+        }
+        .intro p {
+            font-size: 1.05em;
+            color: #9d8566;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        body.light-mode .intro p {
+            color: #6d5844;
+        }
+        .skills-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .skills-cols > div {
+            background: rgba(232, 220, 200, 0.02);
+            border: 1px solid rgba(232, 220, 200, 0.08);
+            padding: 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .skills-cols > div:hover {
+            background: rgba(232, 220, 200, 0.04);
+            border-color: rgba(212, 165, 116, 0.2);
+            transform: translateY(-2px);
+        }
+        body.light-mode .skills-cols > div {
+            background: rgba(61, 47, 38, 0.02);
+            border-color: rgba(61, 47, 38, 0.1);
+        }
+        body.light-mode .skills-cols > div:hover {
+            background: rgba(61, 47, 38, 0.04);
+            border-color: rgba(166, 124, 82, 0.2);
+        }
+        .project-card {
+            position: relative;
+            background: rgba(232, 220, 200, 0.03);
+            border: 1px solid rgba(232, 220, 200, 0.08);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d4a574, #e8b88a, transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .project-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(to right, rgba(212, 165, 116, 0.15) 0%, transparent 2%),
+                linear-gradient(to left, rgba(212, 165, 116, 0.15) 0%, transparent 2%),
+                linear-gradient(to bottom, rgba(212, 165, 116, 0.15) 0%, transparent 2%),
+                linear-gradient(to top, rgba(212, 165, 116, 0.15) 0%, transparent 2%);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+        .project-card:hover {
+            background: rgba(232, 220, 200, 0.06);
+            border-color: rgba(212, 165, 116, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .project-card:hover::before {
+            opacity: 1;
+        }
+        .project-card:hover::after {
+            opacity: 1;
+        }
+        .project-card > * {
+            position: relative;
+            z-index: 1;
+        }
+        body.light-mode .project-card {
+            background: rgba(61, 47, 38, 0.03);
+            border-color: rgba(61, 47, 38, 0.1);
+        }
+        body.light-mode .project-card::before {
+            background: linear-gradient(90deg, #a67c52, #8b6f47, transparent);
+        }
+        body.light-mode .project-card:hover {
+            background: rgba(61, 47, 38, 0.06);
+            border-color: rgba(166, 124, 82, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .project-card h3 {
+            color: #e8dcc8;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+        .project-card:hover h3 {
+            color: #e8b88a;
+            transform: translateX(5px);
+        }
+        body.light-mode .project-card h3 {
+            color: #3d2f26;
+        }
+        body.light-mode .project-card:hover h3 {
+            color: #8b6f47;
+        }
+        .project-card-meta {
+            font-size: 0.85em;
+            color: #8b6f47;
+            margin-bottom: 15px;
+            font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+            padding: 8px 12px;
+            background: rgba(139, 111, 71, 0.1);
+            border-radius: 4px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .project-card:hover .project-card-meta {
+            background: rgba(212, 165, 116, 0.15);
+            transform: translateX(5px);
+        }
+        body.light-mode .project-card-meta {
+            color: #a68063;
+            background: rgba(166, 128, 99, 0.1);
+        }
+        .project-card p {
+            margin-bottom: 0;
+            line-height: 1.7;
+        }
+        .theme-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            background: rgba(212, 165, 116, 0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(212, 165, 116, 0.7);
+            font-size: 1.2em;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .theme-btn:hover {
+            background: rgba(212, 165, 116, 0.2);
+            border-color: rgba(212, 165, 116, 0.6);
+            color: rgba(212, 165, 116, 1);
+        }
+        body.light-mode .theme-btn {
+            border-color: rgba(166, 124, 82, 0.3);
+            background: rgba(166, 124, 82, 0.1);
+            color: rgba(166, 124, 82, 0.7);
+        }
+        body.light-mode .theme-btn:hover {
+            background: rgba(166, 124, 82, 0.2);
+            border-color: rgba(166, 124, 82, 0.6);
+            color: rgba(166, 124, 82, 1);
+        }
+        @media (max-width: 600px) {
+            html {
+                scroll-padding-top: 150px;
+            }
+            body {
+                padding: 30px 15px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.4em;
+            }
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .skills-cols {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .theme-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1em;
+            }
+            .project-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+    </nav>
+    <section class="intro">
+        <h1>Web Developer</h1>
+        <p>Learning HTML, CSS, and JavaScript through online courses and hands-on projects. I also have experience with Python.</p>
+    </section>
+    <section id="about">
+        <h2>About</h2>
+        <p>I'm actively pursuing web development with a focus on frontend fundamentals. Self-motivated learner working through structured online courses while building real projects.</p>
+        <p>Prior programming experience with Python has given me problem-solving skills and a solid foundation in programming concepts, which I'm now applying to web development.</p>
+    </section>
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills-cols">
+            <div>
+                <h3>Technical</h3>
+                <ul>
+                    <li>HTML5</li>
+                    <li>CSS & Responsive Design</li>
+                    <li>JavaScript & DOM</li>
+                    <li>API Integration</li>
+                    <li>Git Version Control</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Other</h3>
+                <ul>
+                    <li>Python Scripting</li>
+                    <li>Problem Solving</li>
+                    <li>Data Processing</li>
+                    <li>Project-based Learning</li>
+                    <li>Self-discipline</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="project-card">
+            <h3>Currency Converter</h3>
+            <div class="project-card-meta">Python, WebSockets</div>
+            <p>My first programming project built entirely from scratch with no prior coding experience. Used Tornado to manage multiple concurrent WebSocket connections and HTTPS requests. Streamed real-time cryptocurrency prices from Binance and forex rates from yfinance to convert prices across multiple currencies and compare those between different platforms. This project sparked my passion for programming.</p>
+        </div>
+        <div class="project-card">
+            <h3>Developer Portfolio</h3>
+            <div class="project-card-meta">HTML, CSS, JavaScript</div>
+            <p>This website built with semantic HTML, modern CSS layouts, and vanilla JavaScript. Shows responsive design, clean code, and practical web development skills.</p>
+        </div>
+    </section>
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">◐</button>
+    <script>
+        var bodyElement = document.body;
+        var themeBtn = document.getElementById('themeBtn');
+        var navLinks = document.querySelectorAll('nav a');
+        var sections = document.querySelectorAll('section[id]');
+        var savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            bodyElement.classList.add('light-mode');
+            themeBtn.textContent = '◑';
+        } else {
+            themeBtn.textContent = '◐';
+        }
+        function toggleTheme() {
+            bodyElement.classList.toggle('light-mode');
+            var isLightMode = bodyElement.classList.contains('light-mode');
+            localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+            themeBtn.textContent = isLightMode ? '◑' : '◐';
+        }
+        function updateActiveMenu() {
+            var currentSection = '';
+            var scrollPos = window.scrollY;
+            var windowHeight = window.innerHeight;
+            var documentHeight = document.documentElement.scrollHeight;
+
+            var isMobile = window.innerWidth <= 600;
+            var offset = isMobile ? 200 : 100;
+
+            if (scrollPos + windowHeight >= documentHeight - 100) {
+                currentSection = sections[sections.length - 1].getAttribute('id');
+            } else {
+                for (var i = 0; i < sections.length; i++) {
+                    var section = sections[i];
+                    var sectionTop = section.offsetTop - offset;
+                    var sectionBottom = sectionTop + section.clientHeight;
+
+                    if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                        currentSection = section.getAttribute('id');
+                    }
+                }
+            }
+            for (var j = 0; j < navLinks.length; j++) {
+                var link = navLinks[j];
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            }
+        }
+        var clickTimeout;
+        for (var k = 0; k < navLinks.length; k++) {
+            navLinks[k].addEventListener('click', function() {
+                if (clickTimeout) {
+                    clearTimeout(clickTimeout);
+                }
+                clickTimeout = setTimeout(function() {
+                    updateActiveMenu();
+                }, 300);
+            });
+        }
+        var scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(updateActiveMenu, 50);
+        });
+
+        window.addEventListener('load', updateActiveMenu);
+    </script>
+</body>
+</html>
