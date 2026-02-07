@@ -3,45 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Test 3</title>
+    <title>Portfolio</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html {
             scroll-behavior: smooth;
             scrollbar-width: none;
             font-size: clamp(14px, 1.5vw, 18px);
-            scroll-padding-top: 0;
         }
-        html::-webkit-scrollbar {
-            display: none;
-        }
+        html::-webkit-scrollbar { display: none; }
         body {
             font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
             line-height: 1.6;
             color: #e8dcc8;
             background: #1a1410;
-            padding: 0;
-            margin: 0;
             overflow-x: hidden;
         }
         body.light-mode {
             color: #3d2f26;
             background: #f5f1ed;
         }
-        
+
         nav {
             display: flex;
             gap: clamp(20px, 4vw, 40px);
             font-size: clamp(0.85rem, 1.5vw, 1rem);
             padding: clamp(15px, 2vw, 20px);
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             background: rgba(26, 20, 16, 0.75);
             border-bottom: 1px solid rgba(232, 220, 200, 0.15);
             backdrop-filter: blur(12px);
@@ -62,18 +51,12 @@
             text-decoration: none;
             white-space: nowrap;
         }
-        nav a:focus {
-            outline: none;
-        }
-        body.light-mode nav a {
-            color: #7d6652;
-        }
+        nav a:focus { outline: none; }
+        body.light-mode nav a { color: #7d6652; }
         nav a::after {
             content: '';
             position: absolute;
-            bottom: 2px;
-            left: 12px;
-            right: 12px;
+            bottom: 2px; left: 12px; right: 12px;
             height: 2px;
             background: linear-gradient(90deg, #d4a574, #e8b88a);
             transform: scaleX(0);
@@ -88,9 +71,7 @@
             background: rgba(212, 165, 116, 0.15);
             box-shadow: 0 0 20px rgba(212, 165, 116, 0.2);
         }
-        nav a.active::after {
-            transform: scaleX(1);
-        }
+        nav a.active::after { transform: scaleX(1); }
         body.light-mode nav a.active {
             color: #8b6f47;
             background: rgba(166, 124, 82, 0.15);
@@ -99,68 +80,59 @@
         @media (hover: hover) and (pointer: fine) {
             nav a:hover {
                 color: #d4a574;
-                text-decoration: none;
                 background: rgba(212, 165, 116, 0.1);
             }
-            nav a:hover::after {
-                transform: scaleX(1);
-            }
+            nav a:hover::after { transform: scaleX(1); }
             body.light-mode nav a:hover {
                 color: #a67c52;
                 background: rgba(166, 124, 82, 0.1);
             }
         }
-        
+
         .container {
             max-width: min(92vw, 1200px);
             margin: 0 auto;
             padding: clamp(20px, 4vw, 60px);
             width: 100%;
         }
-        
+
         section {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid rgba(232, 220, 200, 0.1);
+            padding-top: 60px;
+            padding-bottom: 40px;
             opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-            position: relative;
+            transform: translateY(30px);
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity, transform;
         }
         section.visible {
             opacity: 1;
             transform: translateY(0);
         }
-        section:last-of-type {
-            border-bottom: none;
-        }
-        body.light-mode section {
-            border-bottom-color: rgba(61, 47, 38, 0.1);
-        }
-        
-        .hero {
-            text-align: center;
-        }
-        
+        section:last-of-type { min-height: auto; }
+
+        .hero { text-align: center; }
+
         h1 {
             font-size: clamp(1.8rem, 6vw, 3.5rem);
             font-weight: 400;
             margin-bottom: clamp(15px, 2.5vw, 30px);
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #e8dcc8 0%, #b8a690 100%);
+            background: linear-gradient(135deg, #e8dcc8, #b8a690);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         body.light-mode h1 {
-            background: linear-gradient(135deg, #5c4a3a 0%, #8b6f47 100%);
+            background: linear-gradient(135deg, #5c4a3a, #8b6f47);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .hero p {
             font-size: clamp(0.95rem, 2vw, 1.2rem);
             color: #9d8566;
@@ -168,26 +140,13 @@
             max-width: min(90%, 700px);
             margin: 0 auto clamp(1rem, 2vw, 1.8rem);
         }
-        body.light-mode .hero p {
-            color: #6d5844;
-        }
-        
-        .hero-subtitle {
-            font-size: clamp(0.85rem, 1.8vw, 1.05rem);
-            color: #8b6f47;
-            font-style: italic;
-            max-width: min(90%, 600px);
-            margin: 0 auto;
-        }
-        body.light-mode .hero-subtitle {
-            color: #a68063;
-        }
-        
+        body.light-mode .hero p { color: #6d5844; }
+
         h2 {
             font-size: clamp(1.4rem, 4vw, 2.2rem);
             font-weight: 400;
             margin-bottom: clamp(20px, 3.5vw, 35px);
-            background: linear-gradient(135deg, #d4c4b0 0%, #9d8566 100%);
+            background: linear-gradient(135deg, #d4c4b0, #9d8566);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -197,15 +156,14 @@
         h2::after {
             content: '';
             position: absolute;
-            bottom: -8px;
-            left: 0;
+            bottom: -8px; left: 0;
             width: clamp(50px, 8vw, 70px);
             height: clamp(2px, 0.4vw, 3px);
             background: linear-gradient(90deg, #d4a574, transparent);
             border-radius: 2px;
         }
         body.light-mode h2 {
-            background: linear-gradient(135deg, #6d5844 0%, #a68063 100%);
+            background: linear-gradient(135deg, #6d5844, #a68063);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -213,51 +171,36 @@
         body.light-mode h2::after {
             background: linear-gradient(90deg, #a67c52, transparent);
         }
-        
+
         h3 {
             font-size: clamp(1rem, 2.2vw, 1.3rem);
             font-weight: 500;
-            margin: 0 0 clamp(8px, 1.5vw, 12px) 0;
+            margin: 0 0 clamp(8px, 1.5vw, 12px);
             color: #cdb5a0;
         }
-        body.light-mode h3 {
-            color: #5c4a3a;
-        }
-        
+        body.light-mode h3 { color: #5c4a3a; }
+
         p {
             color: #b8a890;
             margin-bottom: clamp(12px, 2vw, 18px);
             font-size: clamp(0.9rem, 1.8vw, 1.05rem);
         }
-        body.light-mode p {
-            color: #5d4a40;
-        }
-        
+        body.light-mode p { color: #5d4a40; }
+
         a {
             color: #d4a574;
             text-decoration: none;
             transition: all 0.2s ease;
         }
-        a:focus {
-            outline: none;
-        }
-        body.light-mode a {
-            color: #a67c52;
-        }
+        a:focus { outline: none; }
+        body.light-mode a { color: #a67c52; }
         @media (hover: hover) and (pointer: fine) {
-            a:hover {
-                color: #e8b88a;
-                text-decoration: underline;
-            }
-            body.light-mode a:hover {
-                color: #8b6f47;
-            }
+            a:hover { color: #e8b88a; }
+            a:not(nav a):hover { text-decoration: underline; }
+            body.light-mode a:hover { color: #8b6f47; }
         }
-        
-        ul {
-            list-style: none;
-            padding-left: 0;
-        }
+
+        ul { list-style: none; }
         li {
             padding: clamp(5px, 1vw, 8px) 0;
             color: #9d8566;
@@ -265,31 +208,18 @@
             font-size: clamp(0.9rem, 1.8vw, 1.05rem);
         }
         li::before {
-            content: '→';
+            content: '\2192';
             margin-right: clamp(8px, 1.5vw, 12px);
             color: #6d5844;
             transition: color 0.2s ease;
         }
-        li:hover {
-            color: #d4a574;
-            transform: translateX(5px);
-        }
-        li:hover::before {
-            color: #d4a574;
-        }
-        body.light-mode li {
-            color: #8b6f47;
-        }
-        body.light-mode li::before {
-            color: #a68063;
-        }
-        body.light-mode li:hover {
-            color: #a67c52;
-        }
-        body.light-mode li:hover::before {
-            color: #a67c52;
-        }
-        
+        li:hover { color: #d4a574; transform: translateX(5px); }
+        li:hover::before { color: #d4a574; }
+        body.light-mode li { color: #8b6f47; }
+        body.light-mode li::before { color: #a68063; }
+        body.light-mode li:hover { color: #a67c52; }
+        body.light-mode li:hover::before { color: #a67c52; }
+
         .skills-cols {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, clamp(250px, 40vw, 350px)), 1fr));
@@ -300,20 +230,18 @@
             border: 1px solid rgba(232, 220, 200, 0.08);
             padding: clamp(20px, 3.5vw, 35px);
             border-radius: clamp(8px, 1.5vw, 12px);
-            transition: all 0.7s ease-out;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
-            transform: scale(0.9) translateY(30px);
+            transform: scale(0.95) translateY(20px);
+            will-change: opacity, transform;
         }
         section.visible .skills-cols > div {
             opacity: 1;
             transform: scale(1) translateY(0);
         }
-        section.visible .skills-cols > div:nth-child(1) {
-            transition-delay: 0.1s;
-        }
-        section.visible .skills-cols > div:nth-child(2) {
-            transition-delay: 0.2s;
-        }
+        section.visible .skills-cols > div:nth-child(1) { transition-delay: 0.1s; }
+        section.visible .skills-cols > div:nth-child(2) { transition-delay: 0.2s; }
+        section:not(.visible) .skills-cols > div { transition-delay: 0s; }
         .skills-cols > div:hover {
             background: rgba(232, 220, 200, 0.04);
             border-color: rgba(212, 165, 116, 0.2);
@@ -327,7 +255,7 @@
             background: rgba(61, 47, 38, 0.04);
             border-color: rgba(166, 124, 82, 0.2);
         }
-        
+
         .project-card {
             position: relative;
             background: rgba(232, 220, 200, 0.03);
@@ -336,44 +264,35 @@
             padding: clamp(20px, 3.5vw, 40px);
             margin-bottom: clamp(20px, 3.5vw, 35px);
             overflow: hidden;
-            transition: all 0.7s ease-out;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
-            transform: scale(0.92) translateY(35px);
+            transform: scale(0.95) translateY(20px);
+            will-change: opacity, transform;
         }
         section.visible .project-card {
             opacity: 1;
             transform: scale(1) translateY(0);
         }
-        section.visible .project-card:nth-child(2) {
-            transition-delay: 0.15s;
-        }
-        section.visible .project-card:nth-child(3) {
-            transition-delay: 0.3s;
-        }
+        section.visible .project-card:nth-child(2) { transition-delay: 0.1s; }
+        section.visible .project-card:nth-child(3) { transition-delay: 0.2s; }
+        section:not(.visible) .project-card { transition-delay: 0s; }
         .project-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: clamp(2px, 0.4vw, 4px);
             background: linear-gradient(90deg, #d4a574, #e8b88a, transparent);
             opacity: 0;
             transition: opacity 0.4s ease;
         }
-        .project-card > * {
-            position: relative;
-            z-index: 1;
-        }
+        .project-card > * { position: relative; z-index: 1; }
         .project-card:hover {
             background: rgba(232, 220, 200, 0.06);
             border-color: rgba(212, 165, 116, 0.3);
             transform: scale(1.02) translateY(-8px);
             box-shadow: 0 clamp(8px, 2vw, 15px) clamp(25px, 5vw, 40px) rgba(0, 0, 0, 0.3);
         }
-        .project-card:hover::before {
-            opacity: 1;
-        }
+        .project-card:hover::before { opacity: 1; }
         body.light-mode .project-card {
             background: rgba(61, 47, 38, 0.03);
             border-color: rgba(61, 47, 38, 0.1);
@@ -391,16 +310,9 @@
             margin-bottom: clamp(10px, 2vw, 15px);
             transition: all 0.3s ease;
         }
-        .project-card:hover h3 {
-            color: #e8b88a;
-            transform: translateX(5px);
-        }
-        body.light-mode .project-card h3 {
-            color: #3d2f26;
-        }
-        body.light-mode .project-card:hover h3 {
-            color: #8b6f47;
-        }
+        .project-card:hover h3 { color: #e8b88a; transform: translateX(5px); }
+        body.light-mode .project-card h3 { color: #3d2f26; }
+        body.light-mode .project-card:hover h3 { color: #8b6f47; }
         .project-card-meta {
             font-size: clamp(0.8rem, 1.5vw, 0.95rem);
             color: #8b6f47;
@@ -419,11 +331,8 @@
             color: #a68063;
             background: rgba(166, 128, 99, 0.1);
         }
-        .project-card p {
-            margin-bottom: 0;
-            line-height: 1.7;
-        }
-        
+        .project-card p { margin-bottom: 0; line-height: 1.7; }
+
         .theme-btn {
             position: fixed;
             bottom: clamp(15px, 2.5vw, 25px);
@@ -460,15 +369,10 @@
             border-color: rgba(166, 124, 82, 0.6);
             color: rgba(166, 124, 82, 1);
         }
-        
+
         @media (max-width: 600px) {
-            nav {
-                flex-wrap: wrap;
-                gap: clamp(8px, 2vw, 12px);
-            }
-            .skills-cols {
-                grid-template-columns: 1fr;
-            }
+            nav { flex-wrap: wrap; gap: clamp(8px, 2vw, 12px); }
+            .skills-cols { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -484,7 +388,6 @@
             <h1>Aspiring Web Developer</h1>
             <p>Diving into the world of web development with curiosity and determination! Currently exploring HTML, CSS, and JavaScript through online courses, YouTube tutorials, and hands-on experiments. Every bug I encounter teaches me something new, and every project brings a fresh wave of excitement.</p>
             <p>I'm also tinkering with Python on the side, which has helped me understand programming logic. The journey from writing my first "Hello World" to building interactive web pages has been incredible, and I'm eager to keep learning and growing.</p>
-            <p class="hero-subtitle">Building one project at a time, making mistakes, learning from them, and celebrating the small wins along the way.</p>
         </div>
     </section>
 
@@ -535,106 +438,74 @@
             <div class="project-card">
                 <h3>Developer Portfolio</h3>
                 <div class="project-card-meta">HTML, CSS, JavaScript</div>
-                <p>This website built with semantic HTML, modern CSS layouts, and vanilla JavaScript. Shows responsive design, clean code, and practical web development skills.</p>
+                <p>This portfolio site, built with AI assistance to learn how HTML, CSS, and JavaScript work together in practice. Designed as a hands-on way to explore responsive layouts, theme switching, and scroll-based interactions while picking up frontend fundamentals along the way.</p>
             </div>
         </div>
     </section>
 
-    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">◐</button>
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn"></button>
 
     <script>
-        var bodyElement = document.body;
+        var body = document.body;
         var themeBtn = document.getElementById('themeBtn');
         var navLinks = document.querySelectorAll('nav a');
         var sections = document.querySelectorAll('section');
-        
-        var savedTheme = localStorage.getItem('theme');
-        var systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
-        
-        if (initialTheme === 'light') {
-            bodyElement.classList.add('light-mode');
-            themeBtn.textContent = '◑';
-        } else {
-            themeBtn.textContent = '◐';
+
+        var saved = localStorage.getItem('theme');
+        var prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+        if ((saved || (prefersDark ? 'dark' : 'light')) === 'light') {
+            body.classList.add('light-mode');
         }
-        
+        themeBtn.textContent = body.classList.contains('light-mode') ? '\u25D1' : '\u25D0';
+
         function toggleTheme() {
-            bodyElement.classList.toggle('light-mode');
-            var isLightMode = bodyElement.classList.contains('light-mode');
-            localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
-            themeBtn.textContent = isLightMode ? '◑' : '◐';
+            body.classList.toggle('light-mode');
+            var light = body.classList.contains('light-mode');
+            localStorage.setItem('theme', light ? 'light' : 'dark');
+            themeBtn.textContent = light ? '\u25D1' : '\u25D0';
         }
-        
-        var observerOptions = {
-            threshold: 0.25,
-            rootMargin: '0px'
-        };
-        
+
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                } else {
-                    entry.target.classList.remove('visible');
-                }
+                entry.target.classList.toggle('visible', entry.isIntersecting);
             });
-        }, observerOptions);
-        
-        sections.forEach(function(section) {
-            observer.observe(section);
-        });
-        
+        }, { threshold: 0.15 });
+
+        sections.forEach(function(s) { observer.observe(s); });
+
         function updateActiveMenu() {
-            var windowHeight = window.innerHeight;
-            var maxVisiblePercent = 0;
-            var activeSection = null;
-            
-            sections.forEach(function(section) {
-                var rect = section.getBoundingClientRect();
-                var sectionHeight = rect.height;
-                var visibleTop = Math.max(0, rect.top);
-                var visibleBottom = Math.min(windowHeight, rect.bottom);
-                var visibleHeight = Math.max(0, visibleBottom - visibleTop);
-                var visiblePercent = (visibleHeight / sectionHeight) * 100;
-                
-                if (visiblePercent > maxVisiblePercent) {
-                    maxVisiblePercent = visiblePercent;
-                    activeSection = section.getAttribute('id') || 'hero';
-                }
+            var winH = innerHeight;
+            var best = 0;
+            var active = null;
+
+            sections.forEach(function(s) {
+                var r = s.getBoundingClientRect();
+                var visible = Math.max(0, Math.min(winH, r.bottom) - Math.max(0, r.top));
+                var pct = visible / r.height * 100;
+                if (pct > best) { best = pct; active = s.id || 'hero'; }
             });
-            
+
             navLinks.forEach(function(link) {
-                link.classList.remove('active');
                 var href = link.getAttribute('href').substring(1);
-                if (activeSection === href || (activeSection === 'hero' && !href)) {
-                    link.classList.add('active');
-                }
+                link.classList.toggle('active', active === href);
             });
         }
-        
-        var scrollTimeout;
-        window.addEventListener('scroll', function() {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(updateActiveMenu, 50);
+
+        var scrollTimer;
+        addEventListener('scroll', function() {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(updateActiveMenu, 50);
         });
-        
+
         navLinks.forEach(function(link) {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                var targetId = this.getAttribute('href').substring(1);
-                var targetSection = document.getElementById(targetId);
-                if (targetSection) {
-                    var targetPosition = targetSection.offsetTop;
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
+                var target = document.getElementById(this.getAttribute('href').substring(1));
+                if (target) scrollTo({ top: target.offsetTop, behavior: 'smooth' });
             });
         });
-        
-        window.addEventListener('load', updateActiveMenu);
+
+        addEventListener('load', updateActiveMenu);
     </script>
 </body>
 </html>
