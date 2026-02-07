@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
         html {
             scroll-behavior: smooth;
             scrollbar-width: none;
@@ -51,7 +51,6 @@
             text-decoration: none;
             white-space: nowrap;
         }
-        nav a:focus { outline: none; }
         body.light-mode nav a { color: #7d6652; }
         nav a::after {
             content: '';
@@ -112,7 +111,7 @@
             opacity: 1;
             transform: translateY(0);
         }
-        section:last-of-type { min-height: auto; }
+        section:last-of-type { padding-bottom: clamp(20px, 3vw, 40px); }
 
         .hero { text-align: center; }
 
@@ -256,26 +255,38 @@
             border-color: rgba(166, 124, 82, 0.2);
         }
 
-        .project-card {
+        .project-carousel {
             position: relative;
+            width: 100%;
+            overflow: hidden;
+            touch-action: pan-y;
+            cursor: grab;
+        }
+        .project-carousel:active { cursor: grabbing; }
+        .project-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            opacity: 0;
+            transform: translateX(60px) scale(0.95);
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+        .project-slide.no-transition { transition: none; }
+        .project-slide.active {
+            position: relative;
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            pointer-events: auto;
+        }
+        .project-card {
             background: rgba(232, 220, 200, 0.03);
             border: 1px solid rgba(232, 220, 200, 0.08);
             border-radius: clamp(10px, 2vw, 16px);
             padding: clamp(20px, 3.5vw, 40px);
-            margin-bottom: clamp(20px, 3.5vw, 35px);
             overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-            transform: scale(0.95) translateY(20px);
-            will-change: opacity, transform;
+            position: relative;
+            transition: all 0.3s ease;
         }
-        section.visible .project-card {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-        section.visible .project-card:nth-child(2) { transition-delay: 0.1s; }
-        section.visible .project-card:nth-child(3) { transition-delay: 0.2s; }
-        section:not(.visible) .project-card { transition-delay: 0s; }
         .project-card::before {
             content: '';
             position: absolute;
@@ -289,7 +300,6 @@
         .project-card:hover {
             background: rgba(232, 220, 200, 0.06);
             border-color: rgba(212, 165, 116, 0.3);
-            transform: scale(1.02) translateY(-8px);
             box-shadow: 0 clamp(8px, 2vw, 15px) clamp(25px, 5vw, 40px) rgba(0, 0, 0, 0.3);
         }
         .project-card:hover::before { opacity: 1; }
@@ -332,6 +342,31 @@
             background: rgba(166, 128, 99, 0.1);
         }
         .project-card p { margin-bottom: 0; line-height: 1.7; }
+
+        .carousel-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(8px, 1.5vw, 12px);
+            margin-top: clamp(20px, 3vw, 30px);
+        }
+        .carousel-dot {
+            width: clamp(8px, 1.2vw, 10px);
+            height: clamp(8px, 1.2vw, 10px);
+            border-radius: 50%;
+            background: rgba(212, 165, 116, 0.2);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            padding: 0;
+        }
+        .carousel-dot.active {
+            background: #d4a574;
+            transform: scale(1.3);
+        }
+        body.light-mode .carousel-dot { background: rgba(166, 124, 82, 0.2); }
+        body.light-mode .carousel-dot.active { background: #a67c52; }
 
         .theme-btn {
             position: fixed;
@@ -430,16 +465,23 @@
     <section id="projects">
         <div class="container">
             <h2>My Projects</h2>
-            <div class="project-card">
-                <h3>Currency Converter</h3>
-                <div class="project-card-meta">Python, WebSockets</div>
-                <p>My first programming project built entirely from scratch with no prior coding experience. Used Tornado to manage multiple concurrent WebSocket connections and HTTPS requests. Streamed real-time cryptocurrency prices from Binance and forex rates from yfinance to convert prices across multiple currencies and compare those between different platforms. This project sparked my passion for programming.</p>
+            <div class="project-carousel" id="projectCarousel">
+                <div class="project-slide active">
+                    <div class="project-card">
+                        <h3>Currency Converter</h3>
+                        <div class="project-card-meta">Python, WebSockets</div>
+                        <p>My first programming project built entirely from scratch with no prior coding experience. Used Tornado to manage multiple concurrent WebSocket connections and HTTPS requests. Streamed real-time cryptocurrency prices from Binance and forex rates from yfinance to convert prices across multiple currencies and compare those between different platforms. This project sparked my passion for programming.</p>
+                    </div>
+                </div>
+                <div class="project-slide">
+                    <div class="project-card">
+                        <h3>Developer Portfolio</h3>
+                        <div class="project-card-meta">HTML, CSS, JavaScript</div>
+                        <p>This portfolio site, built with AI assistance to learn how HTML, CSS, and JavaScript work together in practice. Designed as a hands-on way to explore responsive layouts, theme switching, and scroll-based interactions while picking up frontend fundamentals along the way.</p>
+                    </div>
+                </div>
             </div>
-            <div class="project-card">
-                <h3>Developer Portfolio</h3>
-                <div class="project-card-meta">HTML, CSS, JavaScript</div>
-                <p>This portfolio site, built with AI assistance to learn how HTML, CSS, and JavaScript work together in practice. Designed as a hands-on way to explore responsive layouts, theme switching, and scroll-based interactions while picking up frontend fundamentals along the way.</p>
-            </div>
+            <div class="carousel-nav" id="carouselDots"></div>
         </div>
     </section>
 
@@ -506,6 +548,59 @@
         });
 
         addEventListener('load', updateActiveMenu);
+
+        var slides = document.querySelectorAll('.project-slide');
+        var dots = document.getElementById('carouselDots');
+        var carousel = document.getElementById('projectCarousel');
+        var currentSlide = 0;
+
+        slides.forEach(function(_, i) {
+            var dot = document.createElement('button');
+            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', function() { goToSlide(i, i > currentSlide ? 1 : -1); });
+            dots.appendChild(dot);
+        });
+
+        function goToSlide(n, dir) {
+            var next = (n + slides.length) % slides.length;
+            if (next === currentSlide) return;
+
+            var cur = slides[currentSlide];
+            var nxt = slides[next];
+
+            cur.style.transform = 'translateX(' + (dir > 0 ? '-60px' : '60px') + ') scale(0.95)';
+            cur.classList.remove('active');
+
+            nxt.classList.add('no-transition');
+            nxt.style.transform = 'translateX(' + (dir > 0 ? '60px' : '-60px') + ') scale(0.95)';
+            void nxt.offsetWidth;
+            nxt.classList.remove('no-transition');
+            nxt.classList.add('active');
+            nxt.style.transform = '';
+
+            cur.addEventListener('transitionend', function cleanup() {
+                cur.style.transform = '';
+                cur.removeEventListener('transitionend', cleanup);
+            });
+
+            dots.children[currentSlide].classList.remove('active');
+            dots.children[next].classList.add('active');
+            currentSlide = next;
+        }
+
+        var startX, dragging;
+
+        function swipeEnd(x) {
+            if (!dragging) return;
+            dragging = false;
+            var diff = startX - x;
+            if (Math.abs(diff) > 40) goToSlide(currentSlide + (diff > 0 ? 1 : -1), diff > 0 ? 1 : -1);
+        }
+
+        carousel.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; dragging = true; }, { passive: true });
+        carousel.addEventListener('touchend', function(e) { swipeEnd(e.changedTouches[0].clientX); });
+        carousel.addEventListener('mousedown', function(e) { startX = e.clientX; dragging = true; });
+        addEventListener('mouseup', function(e) { swipeEnd(e.clientX); });
     </script>
 </body>
 </html>
