@@ -405,6 +405,48 @@
             color: rgba(166, 124, 82, 1);
         }
 
+        .top-indicator {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 101;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            -webkit-tap-highlight-color: transparent;
+            width: 28px;
+            height: 20px;
+        }
+        .top-indicator.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .top-indicator::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid #d4a574;
+            border-top: 2px solid #d4a574;
+            transform: translateX(-50%) rotate(45deg);
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+        .top-indicator:hover::before { opacity: 1; }
+        .top-indicator.show::before {
+            animation: float-up 2s ease-in-out infinite;
+        }
+        @keyframes float-up {
+            0%, 100% { top: 8px; }
+            50% { top: 4px; }
+        }
+        body.light-mode .top-indicator::before {
+            border-color: #a67c52;
+        }
+
         @media (max-width: 600px) {
             nav { flex-wrap: wrap; gap: clamp(8px, 2vw, 12px); }
             .skills-cols { grid-template-columns: 1fr; }
@@ -413,24 +455,15 @@
 </head>
 <body>
     <nav>
-        <a href="#about">About Me</a>
         <a href="#skills">My Skills</a>
         <a href="#projects">My Projects</a>
     </nav>
 
     <section class="hero visible">
         <div class="container">
-            <h1>Aspiring Web Developer</h1>
+            <h1>Introduction</h1>
             <p>Diving into the world of web development with curiosity and determination! Currently exploring HTML, CSS, and JavaScript through online courses, YouTube tutorials, and hands-on experiments. Every bug I encounter teaches me something new, and every project brings a fresh wave of excitement.</p>
-            <p>I'm also tinkering with Python on the side, which has helped me understand programming logic. The journey from writing my first "Hello World" to building interactive web pages has been incredible, and I'm eager to keep learning and growing.</p>
-        </div>
-    </section>
-
-    <section id="about">
-        <div class="container">
-            <h2>About Me</h2>
-            <p>I'm on a journey to become a web developer, focusing on frontend fundamentals. Teaching myself through online courses and building projects to solidify what I learn. Each challenge helps me grow.</p>
-            <p>My background in Python gave me a taste of programming logic and problem-solving. Now I'm applying those skills to create interactive web experiences. It's exciting to see ideas come to life in the browser!</p>
+            <p>My background in Python gave me a taste of programming logic and problem-solving. Now I'm applying those skills to create interactive web experiences, teaching myself through building projects and solidifying what I learn along the way.</p>
         </div>
     </section>
 
@@ -486,10 +519,13 @@
     </section>
 
     <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn"></button>
+    <div class="top-indicator" id="topBtn" title="Back to top"></div>
 
     <script>
         var body = document.body;
         var themeBtn = document.getElementById('themeBtn');
+        var topBtn = document.getElementById('topBtn');
+        var navEl = document.querySelector('nav');
         var navLinks = document.querySelectorAll('nav a');
         var sections = document.querySelectorAll('section');
 
@@ -537,6 +573,7 @@
         addEventListener('scroll', function() {
             clearTimeout(scrollTimer);
             scrollTimer = setTimeout(updateActiveMenu, 50);
+            topBtn.classList.toggle('show', scrollY > innerHeight * 0.5);
         });
 
         navLinks.forEach(function(link) {
@@ -548,6 +585,16 @@
         });
 
         addEventListener('load', updateActiveMenu);
+
+        function positionTopBtn() {
+            topBtn.style.top = navEl.offsetHeight + 15 + 'px';
+        }
+        positionTopBtn();
+        addEventListener('resize', positionTopBtn);
+
+        topBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
         var slides = document.querySelectorAll('.project-slide');
         var dots = document.getElementById('carouselDots');
